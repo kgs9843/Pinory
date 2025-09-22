@@ -47,8 +47,7 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "npm run format",
-      "npm run lint:fix:cache",
-      "git add"
+      "npm run lint:fix:cache"
     ]
   },
   "private": true
