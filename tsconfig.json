@@ -1,6 +1,32 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
-  }
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@app/*": ["./src/app/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@entities/*": ["./src/entities/*"],
+      "@widgets/*": ["./src/widgets/*"],
+      "@features/*": ["./src/features/*"],
+      "@pages/*": ["./src/pages/*"]
+    },
+    // NOTE: 타입 추론 실패 시 any 허용하지 않음
+    "noImplicitAny": true,
+    // NOTE: 사용하지 않는 지역변수 체크
+    "noUnusedLocals": true,
+    // NOTE: 사용하지 않는 함수 파라미터 체크
+    "noUnusedParameters": true,
+    // NOTE: 파일 import 시 대소문자 불일치 방지
+    "forceConsistentCasingInFileNames": true,
+    // NOTE: 함수가 모든 경우 return 되지 않으면 오류
+    "noImplicitReturns": true,
+    // NOTE: switch-case에서 의도치 않은 fallthrough 방지
+    "noFallthroughCasesInSwitch": true,
+    "target": "ES2022",
+    "module": "ESNext"
+  },
+  "include": ["**/*.ts", "**/*.tsx", "nativewind-env.d.ts"],
+  "exclude": ["node_modules", "**/*.test.ts"]
 }
