@@ -1,0 +1,81 @@
+name: 🐛 버그 리포트
+description: 버그나 문제점을 신고합니다
+title: '[Bug] '
+labels: ['bug', 'triage']
+assignees:
+  - ''
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        버그를 신고해 주셔서 감사합니다! 아래 정보를 자세히 입력해 주세요.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 문제 설명
+      description: 어떤 문제가 발생했는지 명확하게 설명해 주세요
+      placeholder: 예상한 결과와 실제 결과를 포함해 주세요
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 재현 단계
+      description: 문제를 재현할 수 있는 단계를 작성해 주세요
+      placeholder: |
+        1. '...' 페이지로 이동
+        2. '...' 버튼 클릭
+        3. '...' 입력
+        4. 오류 확인
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 예상된 동작
+      description: 어떤 결과를 기대했는지 설명해 주세요
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 실제 동작
+      description: 실제로 어떤 일이 발생했는지 설명해 주세요
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: 환경 정보
+      description: 실행 환경에 대한 정보를 제공해 주세요
+      placeholder: |
+        - OS: [예: Windows 11, macOS 14, Ubuntu 22.04]
+        - 브라우저: [예: Chrome 120, Firefox 121]
+        - Node.js 버전: [예: 18.19.0]
+        - 패키지 버전: [예: 1.2.3]
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 추가 정보
+      description: 스크린샷, 로그, 또는 기타 관련 정보를 첨부해 주세요
+      placeholder: 스크린샷이나 에러 로그를 첨부하면 문제 해결에 도움이 됩니다
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: 체크리스트
+      description: 다음 사항들을 확인해 주세요
+      options:
+        - label: 기존 이슈에서 동일한 문제가 보고되지 않았는지 검색했습니다
+          required: true
+        - label: 최신 버전에서도 문제가 발생하는지 확인했습니다
+          required: true

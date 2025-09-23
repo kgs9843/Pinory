@@ -1,0 +1,52 @@
+name: ❓ 질문
+description: 사용법이나 기술적인 질문을 합니다
+title: '[Question] '
+labels: ['question']
+assignees:
+  - ''
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        질문해 주셔서 감사합니다! 최대한 자세히 답변드리도록 하겠습니다.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: 질문 내용
+      description: 무엇이 궁금하신가요?
+      placeholder: 구체적인 질문을 작성해 주세요
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: 상황 설명
+      description: 어떤 상황에서 이런 질문이 생겼나요?
+      placeholder: 현재 작업 중인 내용이나 목표를 설명해 주세요
+
+  - type: textarea
+    id: tried
+    attributes:
+      label: 시도한 방법
+      description: 이미 시도해본 방법이 있다면 알려주세요
+      placeholder: 어떤 방법을 시도해봤는지, 어떤 결과가 나왔는지
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 추가 정보
+      description: 코드 스니펫, 스크린샷 등 도움이 될 만한 자료
+      placeholder: 관련 코드나 스크린샷이 있다면 첨부해 주세요
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: 체크리스트
+      options:
+        - label: 문서나 README를 먼저 확인했습니다
+          required: true
+        - label: 기존 이슈나 토론에서 답변을 찾아봤습니다
+          required: true

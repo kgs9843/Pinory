@@ -1,0 +1,88 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - name: Checkout 코드
+        uses: actions/checkout@v4
+
+      - name: Node.js ${{ matrix.node-version }} 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: 의존성 설치
+        run: npm ci
+
+      - name: 린트 검사
+        run: npm run lint:check
+
+      - name: Prettier 검사
+        run: npm run format:check
+
+      # - name: 단위 테스트 실행
+      #   run: npm run test:unit
+
+      # - name: 통합 테스트 실행
+      #   run: npm run test:integration
+      #   continue-on-error: true
+
+      # - name: 테스트 커버리지 업로드
+      #   uses: codecov/codecov-action@v3
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     files: ./coverage/lcov.info
+      #     flags: unittests
+      #     name: codecov-umbrella
+      - name: 타입 검사
+        run: npm type-check
+
+  # security:
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #   - name: Checkout 코드
+  #     uses: actions/checkout@v4
+
+  #   - name: 보안 취약점 검사
+  #     run: npm audit --audit-level=high
+  #     continue-on-error: true
+
+  #   - name: 라이선스 검사
+  #     uses: fossa-contrib/fossa-action@v2
+  #     with:
+  #       api-key: ${{ secrets.FOSSA_API_KEY }}
+  #     continue-on-error: true
+
+  # performance:
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #   - name: Checkout 코드
+  #     uses: actions/checkout@v4
+
+  #   - name: Node.js 설정
+  #     uses: actions/setup-node@v4
+  #     with:
+  #       node-version: '20.x'
+  #       cache: 'npm'
+
+  #   - name: 의존성 설치
+  #     run: npm ci
+
+  #   - name: 번들 사이즈 분석
+  #     run: npm run analyze-bundle
+  #     continue-on-error: true

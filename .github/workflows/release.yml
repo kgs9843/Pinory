@@ -1,0 +1,56 @@
+# name: Release
+
+# on:
+#   push:
+#     tags:
+#       - 'v*.*.*'
+
+# jobs:
+#   release:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#     - name: Checkout 코드
+#       uses: actions/checkout@v4
+#       with:
+#         fetch-depth: 0
+
+#     - name: Node.js 설정
+#       uses: actions/setup-node@v4
+#       with:
+#         node-version: '20.x'
+#         registry-url: 'https://registry.npmjs.org'
+#         cache: 'npm'
+
+#     - name: 의존성 설치
+#       run: npm ci
+
+#     - name: 테스트 실행
+#       run: npm test
+
+#     - name: 빌드
+#       run: npm run build
+
+#     - name: 패키지 배포 (npm)
+#       run: npm publish
+#       env:
+#         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+#       continue-on-error: true
+
+#     - name: GitHub Release 생성
+#       uses: actions/create-release@v1
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       with:
+#         tag_name: ${{ github.ref }}
+#         release_name: Release ${{ github.ref }}
+#         draft: false
+#         prerelease: false
+
+#     - name: Discord 알림
+#       uses: sarisia/actions-status-discord@v1
+#       if: always()
+#       with:
+#         webhook: ${{ secrets.DISCORD_WEBHOOK }}
+#         title: "릴리스 완료"
+#         description: "새 버전이 배포되었습니다: ${{ github.ref }}"

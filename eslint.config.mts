@@ -26,6 +26,9 @@ export default defineConfig([
           project: path.resolve(process.cwd(), 'tsconfig.json'),
         },
       },
+      react: {
+        version: 'detect',
+      },
     },
     // NOTE: 기본 규칙 + fsd
     rules: {

@@ -7,10 +7,12 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:check": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "lint:fix:cache": "eslint . --ext .js,.jsx,.ts,.tsx --fix --cache",
-    "format": "prettier --write --cache 'src/**/*.{js,jsx,ts,tsx,css,json}'",
+    "format:check": "prettier --check 'src/**/*.{js,jsx,ts,tsx,css,json}'",
+    "format:fix": "prettier --write --cache 'src/**/*.{js,jsx,ts,tsx,css,json}'",
+    "type-check": "tsc --noEmit",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -53,7 +55,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "npm run format",
+      "npm run format:check",
       "npm run lint:fix:cache"
     ]
   },
