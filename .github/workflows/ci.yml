@@ -45,7 +45,7 @@ jobs:
       #     flags: unittests
       #     name: codecov-umbrella
       - name: 타입 검사
-        run: npm type-check
+        run: npm run type-check
 
   # security:
   #   runs-on: ubuntu-latest
