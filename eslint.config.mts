@@ -2,22 +2,70 @@ import js from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import pluginReact from 'eslint-plugin-react';
+import importPlugin from 'eslint-plugin-import';
+import reactHooks from 'eslint-plugin-react-hooks';
 import { defineConfig } from 'eslint/config';
 import prettierPlugin from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
+import path from 'path';
 
 export default defineConfig([
   {
     files: ['src/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    plugins: { js, prettier: prettierPlugin },
+    plugins: { js, import: importPlugin, prettier: prettierPlugin },
     extends: [
       'js/recommended',
       tseslint.configs.recommended,
       pluginReact.configs.flat.recommended,
+      reactHooks.configs['recommended-latest'],
       prettierConfig,
     ],
-    // 기본 규칙
+    settings: {
+      'import/resolver': {
+        typescript: {
+          project: path.resolve(process.cwd(), 'tsconfig.json'),
+        },
+      },
+    },
+    // NOTE: 기본 규칙 + fsd
     rules: {
+      // NOTE: React
+      ...pluginReact.configs.recommended.rules,
+      'react/react-in-jsx-scope': 'off',
+      'react/jsx-uses-react': 'off',
+      'react/jsx-filename-extension': ['warn', { extensions: ['.tsx', '.jsx'] }],
+      // NOTE: React Hooks
+      ...reactHooks.configs.recommended.rules,
+      'react-hooks/rules-of-hooks': 'warn',
+      'react-hooks/exhaustive-deps': 'warn',
+
+      // NOTE: fsd
+      'import/order': [
+        'error',
+        {
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            ['parent', 'sibling', 'index'],
+            'object',
+            'type',
+          ],
+          pathGroups: [
+            { pattern: '@/**', group: 'internal', position: 'before' },
+            { pattern: '@app/**', group: 'internal', position: 'after' },
+            { pattern: '@pages/**', group: 'internal', position: 'after' },
+            { pattern: '@widgets/**', group: 'internal', position: 'after' },
+            { pattern: '@features/**', group: 'internal', position: 'after' },
+            { pattern: '@entities/**', group: 'internal', position: 'after' },
+            { pattern: '@shared/**', group: 'internal', position: 'after' },
+          ],
+          pathGroupsExcludedImportTypes: ['builtin'],
+          alphabetize: { order: 'asc', caseInsensitive: true },
+          'newlines-between': 'always',
+        },
+      ],
+      // NOTE: 기본규칙
       semi: ['warn', 'always'],
       quotes: ['warn', 'single'],
       eqeqeq: ['warn', 'always'],
@@ -33,9 +81,6 @@ export default defineConfig([
       'object-shorthand': ['warn', 'always'],
       'lines-between-class-members': ['warn', 'always', { exceptAfterSingleLine: true }],
       'keyword-spacing': 'warn',
-      'array-bracket-newline': ['warn', { multiline: true, minItems: 2 }],
-      'array-element-newline': ['warn', { multiline: true, minItems: 2 }],
-      'object-property-newline': ['warn', { allowAllPropertiesOnSameLine: false }],
     },
     languageOptions: { globals: globals.browser },
   },

@@ -1,0 +1,51 @@
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React from 'react';
+
+import CreateTab from '@pages/CreateTab/ui/CreateTab';
+import MapTab from '@pages/MapTab/ui/MapTab';
+import ProfileTab from '@pages/ProfileTab/ui/ProfileTab';
+
+import BottomTabBar from '@shared/ui/BottomTabBar';
+
+const Tab = createBottomTabNavigator();
+const MainTabNavigator = () => {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: true,
+      }}
+      tabBar={props => <BottomTabBar {...props} />}
+    >
+      <Tab.Screen
+        name="MapTab"
+        component={MapTab}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="CreateTab"
+        component={CreateTab}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="ProfileTab"
+        component={ProfileTab}
+        options={{
+          headerShown: false,
+        }}
+      />
+      {/* <Tab.Screen
+        name="RecipeCreate"
+        component={RecipeCreate}
+        options={{
+          header: () => <RecipeCreateTopsection />,
+        }}
+      /> */}
+    </Tab.Navigator>
+  );
+};
+
+export default MainTabNavigator;

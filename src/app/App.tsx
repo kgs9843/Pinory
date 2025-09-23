@@ -1,12 +1,14 @@
 import '@/global.css';
-import { Text, View } from 'react-native';
 import React from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+import { Navigation } from './Navigation';
 
 const App = () => {
   return (
-    <View className="flex-1 items-center justify-center">
-      <Text className="text-5xl font-bold">Hello World!</Text>
-    </View>
+    <SafeAreaProvider>
+      <Navigation />
+    </SafeAreaProvider>
   );
 };
 
