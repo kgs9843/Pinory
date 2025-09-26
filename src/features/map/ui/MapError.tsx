@@ -37,7 +37,6 @@ const MapError: React.FC<MapErrorProps> = ({ errorMessage, onRetry }) => {
         정확한 지도 서비스를 이용하려면 위치 권한을 허용해야 합니다. 아래 버튼을 눌러 설정에서 직접
         권한을 변경해 주세요.
       </Text>
-
       <View className="flex-row justify-center gap-5">
         {/* 설정 화면으로 이동하는 버튼 */}
         <TouchableOpacity
@@ -46,7 +45,6 @@ const MapError: React.FC<MapErrorProps> = ({ errorMessage, onRetry }) => {
         >
           <Text className="text-base font-semibold text-white">설정으로 이동</Text>
         </TouchableOpacity>
-
         {/* 재로딩 버튼 */}
         <TouchableOpacity
           onPress={handleRetryWithFeedback}

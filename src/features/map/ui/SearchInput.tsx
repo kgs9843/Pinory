@@ -1,6 +1,6 @@
 import * as Location from 'expo-location';
 import React, { useState } from 'react';
-import { View, TextInput, Button, Alert } from 'react-native';
+import { View, TextInput, Alert } from 'react-native';
 
 import SearchIconSVG from '@/assets/images/search-icon.svg';
 
@@ -15,7 +15,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch }) => {
 
   const handleSearch = async () => {
     if (!query.trim()) {
-      Alert.alert('검색어를 입력해주세요.');
+      //Alert.alert('검색어를 입력해주세요.');
       return;
     }
 
@@ -36,10 +36,10 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch }) => {
   };
 
   return (
-    <View className="absolute left-0 right-0 top-2 z-10 flex-row items-center justify-center gap-5 bg-transparent p-4">
+    <View className="absolute left-0 right-0 top-4 z-10 flex-row justify-center gap-5 bg-transparent">
       <View className="flex-row items-center justify-center">
         <TextInput
-          className="h-14 w-[300px] rounded-full border border-gray-300 bg-white px-14"
+          className="h-14 w-[250px] rounded-full border border-gray-300 bg-white px-14"
           style={ShadowStyles.shadowMd}
           placeholder="장소를 검색해보세요"
           onChangeText={setQuery}
@@ -50,9 +50,6 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch }) => {
         <View className="absolute left-[18px]">
           <SearchIconSVG height={20} />
         </View>
-      </View>
-      <View className="h-10 w-10">
-        <Button title="검" onPress={handleSearch} />
       </View>
     </View>
   );

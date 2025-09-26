@@ -3,7 +3,9 @@ import { View, StyleSheet } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 
 import useLocation from '@shared/lib/useLocation';
+import { useCategoryStore } from '@shared/store/useCategoryStore';
 
+import CategoryDropdown from './CategoryDropdown';
 import CurrentLocationButton from './CurrentLocationButton';
 import MapError from './MapError';
 import MapLoading from './MapLoading';
@@ -25,6 +27,7 @@ const MapScreen = () => {
   const { location, loading, error } = useLocation(retryCount);
   const { searchLocation, handleSearch } = useSearchLocation(mapRef);
   const { goToCurrentLocation } = useMapControls(mapRef, location);
+  const expanded = useCategoryStore(state => state.expanded);
 
   const handleRetry = useCallback(() => {
     setRetryCount(prev => prev + 1);
@@ -46,6 +49,7 @@ const MapScreen = () => {
         provider={PROVIDER_GOOGLE}
         showsUserLocation={true}
         showsMyLocationButton={false}
+        scrollEnabled={!expanded}
         initialRegion={
           location
             ? {
@@ -59,8 +63,12 @@ const MapScreen = () => {
       >
         {searchLocation && <Marker coordinate={searchLocation} pinColor="blue" title="검색 위치" />}
       </MapView>
+
       {/* 검색바 */}
       <SearchInput onSearch={handleSearch} />
+      {/* 카테고리 */}
+      <CategoryDropdown />
+
       {/* 현재위치 표시 */}
       <CurrentLocationButton onPress={goToCurrentLocation} visible={!!location} />
     </View>
