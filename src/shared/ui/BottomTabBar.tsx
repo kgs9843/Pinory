@@ -2,6 +2,8 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
+import { ShadowStyles } from './shadow';
+
 // FIXME: {state,navigation}
 const BottomTabBar = ({ navigation }: BottomTabBarProps) => {
   //   const currentRoute = state.routes[state.index].name;
@@ -16,13 +18,7 @@ const BottomTabBar = ({ navigation }: BottomTabBarProps) => {
   return (
     <View
       className="absolute bottom-[33px] left-[16px] right-[16px] h-[68px] w-[362px] flex-row justify-around rounded-full bg-white py-1.5 pl-8 pr-9"
-      style={{
-        shadowColor: '#847C70',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.1,
-        shadowRadius: 20,
-        elevation: 8,
-      }}
+      style={ShadowStyles.shadowMd}
     >
       {tabs.map(tab => {
         // const ActiveIcon = tab.On;

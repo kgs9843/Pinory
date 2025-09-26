@@ -5,6 +5,8 @@ import CreateTab from '@pages/CreateTab/ui/CreateTab';
 import MapTab from '@pages/MapTab/ui/MapTab';
 import ProfileTab from '@pages/ProfileTab/ui/ProfileTab';
 
+import MapTabHeader from '@widgets/mapTab/ui/MapTabHeader';
+
 import BottomTabBar from '@shared/ui/BottomTabBar';
 
 const Tab = createBottomTabNavigator();
@@ -20,7 +22,7 @@ const MainTabNavigator = () => {
         name="MapTab"
         component={MapTab}
         options={{
-          headerShown: false,
+          header: () => <MapTabHeader />,
         }}
       />
       <Tab.Screen

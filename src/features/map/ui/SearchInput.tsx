@@ -1,0 +1,61 @@
+import * as Location from 'expo-location';
+import React, { useState } from 'react';
+import { View, TextInput, Button, Alert } from 'react-native';
+
+import SearchIconSVG from '@/assets/images/search-icon.svg';
+
+import { ShadowStyles } from '@shared/ui/shadow';
+
+interface SearchInputProps {
+  onSearch: (coords: { latitude: number; longitude: number }) => void;
+}
+
+const SearchInput: React.FC<SearchInputProps> = ({ onSearch }) => {
+  const [query, setQuery] = useState('');
+
+  const handleSearch = async () => {
+    if (!query.trim()) {
+      Alert.alert('검색어를 입력해주세요.');
+      return;
+    }
+
+    try {
+      // NOTE: Geocoding (위치 검색) 실행
+      const geocodedLocation = await Location.geocodeAsync(query.trim());
+
+      if (geocodedLocation.length > 0) {
+        const { latitude, longitude } = geocodedLocation[0];
+        onSearch({ latitude, longitude });
+      } else {
+        Alert.alert('검색 결과를 찾을 수 없습니다.');
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert('위치 검색 중 오류가 발생했습니다.');
+    }
+  };
+
+  return (
+    <View className="absolute left-0 right-0 top-2 z-10 flex-row items-center justify-center gap-5 bg-transparent p-4">
+      <View className="flex-row items-center justify-center">
+        <TextInput
+          className="h-14 w-[300px] rounded-full border border-gray-300 bg-white px-14"
+          style={ShadowStyles.shadowMd}
+          placeholder="장소를 검색해보세요"
+          onChangeText={setQuery}
+          value={query}
+          onSubmitEditing={handleSearch}
+          returnKeyType="search"
+        />
+        <View className="absolute left-[18px]">
+          <SearchIconSVG height={20} />
+        </View>
+      </View>
+      <View className="h-10 w-10">
+        <Button title="검" onPress={handleSearch} />
+      </View>
+    </View>
+  );
+};
+
+export default SearchInput;

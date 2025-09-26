@@ -1,9 +1,17 @@
-import React from 'react';
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import React, { useCallback, useRef, useState } from 'react';
+import { View, StyleSheet } from 'react-native';
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 
 import useLocation from '@shared/lib/useLocation';
 
+import CurrentLocationButton from './CurrentLocationButton';
+import MapError from './MapError';
+import MapLoading from './MapLoading';
+import SearchInput from './SearchInput';
+import { useMapControls } from '../model/useMapControls';
+import { useSearchLocation } from '../model/useSearchLocation';
+
+// NOTE: 초기위치(서울 남부)
 const defaultRegion = {
   latitude: 37.5729,
   longitude: 126.9794,
@@ -12,46 +20,50 @@ const defaultRegion = {
 };
 
 const MapScreen = () => {
-  const { location, loading, error } = useLocation();
+  const mapRef = useRef<MapView>(null);
+  const [retryCount, setRetryCount] = useState(0);
+  const { location, loading, error } = useLocation(retryCount);
+  const { searchLocation, handleSearch } = useSearchLocation(mapRef);
+  const { goToCurrentLocation } = useMapControls(mapRef, location);
+
+  const handleRetry = useCallback(() => {
+    setRetryCount(prev => prev + 1);
+  }, []);
 
   if (loading) {
-    return (
-      <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" color="#0000ff" />
-        <Text className="mt-4">위치 정보를 불러오는 중...</Text>
-      </View>
-    );
+    return <MapLoading />;
   }
 
   if (error) {
-    console.log(error);
+    return <MapError errorMessage={error} onRetry={handleRetry} />;
   }
 
   return (
-    <MapView
-      style={StyleSheet.absoluteFill}
-      provider={PROVIDER_GOOGLE}
-      showsUserLocation
-      showsMyLocationButton
-      initialRegion={
-        location
-          ? {
-              latitude: location.latitude,
-              longitude: location.longitude,
-              latitudeDelta: 0.01,
-              longitudeDelta: 0.01,
-            }
-          : defaultRegion
-      }
-    >
-      {/* {location && (
-        <Marker
-          coordinate={{ latitude: location.latitude, longitude: location.longitude }}
-          title="현재 위치"
-          description="현재 사용자 위치"
-        />
-      )} */}
-    </MapView>
+    <View className="flex-1">
+      <MapView
+        ref={mapRef}
+        style={StyleSheet.absoluteFill}
+        provider={PROVIDER_GOOGLE}
+        showsUserLocation={true}
+        showsMyLocationButton={false}
+        initialRegion={
+          location
+            ? {
+                latitude: location.latitude,
+                longitude: location.longitude,
+                latitudeDelta: 0.01,
+                longitudeDelta: 0.01,
+              }
+            : defaultRegion
+        }
+      >
+        {searchLocation && <Marker coordinate={searchLocation} pinColor="blue" title="검색 위치" />}
+      </MapView>
+      {/* 검색바 */}
+      <SearchInput onSearch={handleSearch} />
+      {/* 현재위치 표시 */}
+      <CurrentLocationButton onPress={goToCurrentLocation} visible={!!location} />
+    </View>
   );
 };
 

@@ -11,7 +11,7 @@
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "lint:fix:cache": "eslint . --ext .js,.jsx,.ts,.tsx --fix --cache",
     "format:check": "prettier --check 'src/**/*.{js,jsx,ts,tsx,css,json}'",
-    "format:fix": "prettier --write --cache 'src/**/*.{js,jsx,ts,tsx,css,json}'",
+    "format:fix": "prettier --write .",
     "type-check": "tsc --noEmit",
     "prepare": "husky install"
   },
@@ -21,6 +21,7 @@
     "@react-navigation/native": "^7.1.17",
     "@react-navigation/native-stack": "^7.3.26",
     "expo": "~54.0.9",
+    "expo-linking": "~8.0.8",
     "expo-location": "~19.0.7",
     "expo-status-bar": "~3.0.8",
     "jiti": "^2.5.1",

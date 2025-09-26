@@ -8,7 +8,7 @@ interface LocationState {
   longitude: number;
 }
 
-const useLocation = () => {
+const useLocation = (retryCount: number) => {
   const { permissionStatus, requestPermission } = useLocationPermission();
   const [location, setLocation] = useState<LocationState | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -18,7 +18,7 @@ const useLocation = () => {
     const fetchLocation = async () => {
       if (permissionStatus === 'denied') {
         setLoading(false);
-        // 권한이 거부되었으면 즉시 종료
+        // NOTE: 권한이 거부되었으면 즉시 종료
         setError('Location permission not granted.');
         return;
       }
@@ -26,7 +26,7 @@ const useLocation = () => {
       const hasPermission = await requestPermission();
       if (!hasPermission) {
         setLoading(false);
-        // 권한을 요청하고 승인되지 않았으면 종료
+        // NOTE: 권한을 요청하고 승인되지 않았으면 종료
         setError('Location permission not granted.');
         return;
       }
@@ -44,11 +44,10 @@ const useLocation = () => {
         setLoading(false);
       }
     };
-
     if (permissionStatus === 'granted' || permissionStatus === 'undetermined') {
       fetchLocation();
     }
-  }, [permissionStatus, requestPermission]);
+  }, [permissionStatus, requestPermission, retryCount]);
 
   return { location, loading, error };
 };
