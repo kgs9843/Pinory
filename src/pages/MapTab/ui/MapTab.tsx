@@ -1,12 +1,16 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const Home = () => {
+import MapScreen from '@features/map/ui/MapScreen';
+
+const MapTab = () => {
+  const insets = useSafeAreaInsets();
+
   return (
-    <View>
-      <Text>Home</Text>
+    <View className="flex-1" style={{ paddingTop: insets.bottom }}>
+      <MapScreen />
     </View>
   );
 };
-
-export default Home;
+export default MapTab;
