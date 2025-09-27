@@ -13,12 +13,17 @@ import SearchInput from './SearchInput';
 import { useMapControls } from '../model/useMapControls';
 import { useSearchLocation } from '../model/useSearchLocation';
 
+// NOTE: 기본 줌 레벨 (delta 값)
+const DEFAULT_DELTA = {
+  latitudeDelta: 0.01,
+  longitudeDelta: 0.01,
+};
+
 // NOTE: 초기위치(서울 남부)
 const defaultRegion = {
   latitude: 37.5729,
   longitude: 126.9794,
-  latitudeDelta: 0.01,
-  longitudeDelta: 0.01,
+  ...DEFAULT_DELTA,
 };
 
 const MapScreen = () => {
@@ -55,8 +60,8 @@ const MapScreen = () => {
             ? {
                 latitude: location.latitude,
                 longitude: location.longitude,
-                latitudeDelta: 0.01,
-                longitudeDelta: 0.01,
+                latitudeDelta: DEFAULT_DELTA.latitudeDelta,
+                longitudeDelta: DEFAULT_DELTA.longitudeDelta,
               }
             : defaultRegion
         }

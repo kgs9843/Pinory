@@ -7,7 +7,7 @@ type PermissionStatus = 'granted' | 'denied' | 'undetermined';
 const useLocationPermission = () => {
   const [permissionStatus, setPermissionStatus] = useState<PermissionStatus>('undetermined');
 
-  // 권한 상태를 확인하는 재사용 가능한 함수
+  // NOTE: 권한 상태를 확인하는 재사용 가능한 함수
   const checkPermissionStatus = async () => {
     const { status } = await Location.getForegroundPermissionsAsync();
     setPermissionStatus(status as PermissionStatus);

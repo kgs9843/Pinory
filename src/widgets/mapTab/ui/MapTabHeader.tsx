@@ -8,7 +8,7 @@ const MapTabHeader = () => {
     <View className="z-50 w-full" style={{ paddingTop: insets.top }}>
       <View className="h-[50px] w-full flex-row items-center justify-center">
         <Text className="absolute left-3 text-2xl">+</Text>
-        <Text className="text-2xl">Pinory</Text>
+        <Text className="text-2xl font-bold">Pinory</Text>
       </View>
     </View>
   );

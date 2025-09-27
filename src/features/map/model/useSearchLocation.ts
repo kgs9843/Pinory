@@ -6,6 +6,12 @@ export interface Coords {
   longitude: number;
 }
 
+// NOTE: 기본 줌 레벨
+const DEFAULT_DELTA = 14;
+
+// NOTE: 움직이는 속도(ms)
+const MOVING_SPEED = 1000;
+
 export function useSearchLocation(mapRef: RefObject<MapView | null>) {
   const [searchLocation, setSearchLocation] = useState<Coords | null>(null);
 
@@ -20,9 +26,9 @@ export function useSearchLocation(mapRef: RefObject<MapView | null>) {
               latitude: coords.latitude,
               longitude: coords.longitude,
             },
-            zoom: 14,
+            zoom: DEFAULT_DELTA,
           },
-          { duration: 1000 },
+          { duration: MOVING_SPEED },
         );
       }
     },
