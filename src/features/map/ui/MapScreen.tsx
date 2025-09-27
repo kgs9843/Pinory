@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
 import useLocation from '@shared/lib/useLocation';
 import { useCategoryStore } from '@shared/store/useCategoryStore';
@@ -9,7 +9,9 @@ import CategoryDropdown from './CategoryDropdown';
 import CurrentLocationButton from './CurrentLocationButton';
 import MapError from './MapError';
 import MapLoading from './MapLoading';
+import PinList from './PinList';
 import SearchInput from './SearchInput';
+import { useFilteredPins } from '../model/useFilteredPins';
 import { useMapControls } from '../model/useMapControls';
 import { useSearchLocation } from '../model/useSearchLocation';
 
@@ -30,22 +32,24 @@ const MapScreen = () => {
   const mapRef = useRef<MapView>(null);
   const [retryCount, setRetryCount] = useState(0);
   const { location, loading, error } = useLocation(retryCount);
-  const { searchLocation, handleSearch } = useSearchLocation(mapRef);
+  const { handleSearch } = useSearchLocation(mapRef);
   const { goToCurrentLocation } = useMapControls(mapRef, location);
-  const expanded = useCategoryStore(state => state.expanded);
+  const { expanded, selectedCategory } = useCategoryStore();
 
+  // NOTE: 에러 화면 retry check
   const handleRetry = useCallback(() => {
     setRetryCount(prev => prev + 1);
   }, []);
 
+  // NOTE: 마커 걸러주는 로직
+  const filteredPins = useFilteredPins(selectedCategory);
+
   if (loading) {
     return <MapLoading />;
   }
-
   if (error) {
     return <MapError errorMessage={error} onRetry={handleRetry} />;
   }
-
   return (
     <View className="flex-1">
       <MapView
@@ -66,7 +70,8 @@ const MapScreen = () => {
             : defaultRegion
         }
       >
-        {searchLocation && <Marker coordinate={searchLocation} pinColor="blue" title="검색 위치" />}
+        {/* 카테고리 마커들 */}
+        <PinList pins={filteredPins} />
       </MapView>
 
       {/* 검색바 */}

@@ -1,12 +1,7 @@
 import { create } from 'zustand';
 
 import { initialCategories } from '../config/dummyCategories';
-
-interface Category {
-  id: number;
-  name: string;
-  color: string;
-}
+import { Category } from '../types';
 
 interface CategoryStore {
   expanded: boolean;

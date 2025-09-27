@@ -1,12 +1,12 @@
 import * as Linking from 'expo-linking';
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
-interface MapErrorProps {
+interface Props {
   errorMessage: string;
   onRetry: () => void;
 }
 
-const MapError: React.FC<MapErrorProps> = ({ errorMessage, onRetry }) => {
+const MapError = ({ errorMessage, onRetry }: Props) => {
   const [retryAttempt, setRetryAttempt] = useState<number>(0);
 
   const openAppSettings = () => {

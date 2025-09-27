@@ -10,7 +10,7 @@ interface Props {
   visible: boolean;
 }
 
-const CurrentLocationButton: React.FC<Props> = ({ onPress, visible }) => {
+const CurrentLocationButton = ({ onPress, visible }: Props) => {
   if (!visible) {
     return null;
   }

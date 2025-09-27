@@ -1,10 +1,7 @@
 import { useCallback, RefObject } from 'react';
 import MapView, { Region } from 'react-native-maps';
 
-interface Coords {
-  latitude: number;
-  longitude: number;
-}
+import { Coords } from '@shared/types';
 
 // NOTE: 기본 줌 레벨 (delta 값)
 const DEFAULT_DELTA = {

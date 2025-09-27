@@ -6,11 +6,11 @@ import SearchIconSVG from '@/assets/images/search-icon.svg';
 
 import { ShadowStyles } from '@shared/ui/shadow';
 
-interface SearchInputProps {
+interface Props {
   onSearch: (coords: { latitude: number; longitude: number }) => void;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({ onSearch }) => {
+const SearchInput = ({ onSearch }: Props) => {
   const [query, setQuery] = useState('');
 
   const handleSearch = async () => {
