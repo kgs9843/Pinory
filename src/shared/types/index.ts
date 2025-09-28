@@ -5,7 +5,17 @@ export interface Pin {
   title: string;
   latitude: number;
   longitude: number;
+  description: string;
+  imageUrl?: string;
+  locationName: string;
 }
+
+// export interface PinDetail {
+//   id: number;
+//   categoryId: number;
+//   title: string;
+//   description: string;
+// }
 
 export interface Category {
   id: number;
