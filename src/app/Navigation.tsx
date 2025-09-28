@@ -10,6 +10,7 @@ export function Navigation() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Main" component={MainTabNavigator} />
+        <Stack.Screen name="PinDetail" component={MainTabNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
   );
