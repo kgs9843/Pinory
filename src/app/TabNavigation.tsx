@@ -7,10 +7,15 @@ import ProfileTab from '@pages/ProfileTab/ui/ProfileTab';
 
 import MapTabHeader from '@widgets/mapTab/ui/MapTabHeader';
 
+import { RootNavigationProp } from '@shared/types/navigation';
 import BottomTabBar from '@shared/ui/BottomTabBar';
 
+interface Props {
+  navigation: RootNavigationProp<'Main'>;
+}
+
 const Tab = createBottomTabNavigator();
-const MainTabNavigator = () => {
+const MainTabNavigator = ({ navigation }: Props) => {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -22,7 +27,7 @@ const MainTabNavigator = () => {
         name="MapTab"
         component={MapTab}
         options={{
-          header: () => <MapTabHeader />,
+          header: () => <MapTabHeader navigation={navigation} />,
         }}
       />
       <Tab.Screen

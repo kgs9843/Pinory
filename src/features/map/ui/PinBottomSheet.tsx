@@ -1,20 +1,21 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useRef, useEffect } from 'react';
 import { View, Text, Image, Pressable } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 
-import type { Pin } from '@/src/shared/types';
-
 import { categoryData } from '@shared/config/dummyCategories';
 import { getCategoryColor } from '@shared/lib/getCategoryColor';
+import type { Pin } from '@shared/types';
+import { RootNavigationProp } from '@shared/types/navigation';
 
 interface Props {
   selectedPin: Pin | null;
   setSelectedPin: (pin: Pin | null) => void;
-  onDetailPress?: (pin: Pin) => void; // 자세히보기 버튼 콜백
 }
 
-const PinBottomSheet = ({ selectedPin, setSelectedPin, onDetailPress }: Props) => {
+const PinBottomSheet = ({ selectedPin, setSelectedPin }: Props) => {
   const modalizeRef = useRef<Modalize>(null);
+  const navigation = useNavigation<RootNavigationProp<'Main'>>();
 
   useEffect(() => {
     if (selectedPin) {
@@ -24,7 +25,7 @@ const PinBottomSheet = ({ selectedPin, setSelectedPin, onDetailPress }: Props) =
     }
   }, [selectedPin]);
 
-  const getCategoryName = (categoryId: number) => {
+  const getCategoryName = (categoryId: string) => {
     const category = categoryData.find(c => c.id === categoryId);
     return category ? category.name : 'Unknown';
   };
@@ -80,7 +81,7 @@ const PinBottomSheet = ({ selectedPin, setSelectedPin, onDetailPress }: Props) =
           {/* 자세히보기 버튼 */}
           <Pressable
             className="rounded-full bg-blue-500 py-2"
-            onPress={() => selectedPin && onDetailPress?.(selectedPin)}
+            onPress={() => navigation.navigate('PinDetail', { pinId: selectedPin.id })}
           >
             <Text className="text-center font-semibold text-white">자세히 보기</Text>
           </Pressable>
