@@ -3,9 +3,9 @@ import React, { useRef, useEffect } from 'react';
 import { View, Text, Image, Pressable } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 
-import { categoryData } from '@shared/config/dummyCategories';
-import { getCategoryColor } from '@shared/lib/getCategoryColor';
-import type { Pin } from '@shared/types';
+import { Pin } from '@entities/pin/model/types';
+
+import { getCategoryColor, getCategoryName } from '@shared/lib/getCategory';
 import { RootNavigationProp } from '@shared/types/navigation';
 
 interface Props {
@@ -24,11 +24,6 @@ const PinBottomSheet = ({ selectedPin, setSelectedPin }: Props) => {
       modalizeRef.current?.close();
     }
   }, [selectedPin]);
-
-  const getCategoryName = (categoryId: string) => {
-    const category = categoryData.find(c => c.id === categoryId);
-    return category ? category.name : 'Unknown';
-  };
 
   return (
     <Modalize

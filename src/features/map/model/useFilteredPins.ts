@@ -1,11 +1,12 @@
 import { useMemo } from 'react';
 
-import { pins } from '@shared/config/dummyPins';
+import { pins } from '@entities/pin/model/mock';
+
 import { Category } from '@shared/types';
 
 export const useFilteredPins = (selectedCategory: Category | null) => {
   return useMemo(() => {
-    if (!selectedCategory || selectedCategory.id === 0) {
+    if (!selectedCategory || selectedCategory.id === '0') {
       return pins;
     }
     return pins.filter(pin => pin.categoryId === selectedCategory.id);
