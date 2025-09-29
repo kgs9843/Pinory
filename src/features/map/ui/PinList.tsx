@@ -1,10 +1,9 @@
 import React, { RefObject } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 
-import { getCategoryColor } from '@/src/shared/lib/getCategory';
-
 import { Pin } from '@entities/pin/model/types';
 
+import { getCategoryColor } from '@shared/lib/getCategory';
 
 const CAMERA_OFFSET_LATITUDE = 0.015; // 위도차
 const CAMERA_DELTA = 0.04;
