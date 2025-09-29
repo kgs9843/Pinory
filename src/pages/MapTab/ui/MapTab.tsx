@@ -8,14 +8,15 @@ import { useSearchLocation } from '@features/map/model/useSearchLocation';
 import CategoryDropdown from '@features/map/ui/CategoryDropdown';
 import CurrentLocationButton from '@features/map/ui/CurrentLocationButton';
 import MapError from '@features/map/ui/MapError';
-import MapLoading from '@features/map/ui/MapLoading';
 import PinBottomSheet from '@features/map/ui/PinBottomSheet';
 import PinList from '@features/map/ui/PinList';
 import SearchInput from '@features/map/ui/SearchInput';
 
+import { Pin } from '@entities/pin/model/types';
+
 import useLocation from '@shared/lib/useLocation';
 import { useCategoryStore } from '@shared/store/useCategoryStore';
-import { Pin } from '@shared/types';
+import LoadingSpinner from '@shared/ui/LoadingSpinner';
 
 // NOTE: 기본 줌 레벨 (delta 값)
 const DEFAULT_DELTA = {
@@ -48,7 +49,7 @@ const MapTab = () => {
   const filteredPins = useFilteredPins(selectedCategory);
 
   if (loading) {
-    return <MapLoading />;
+    return <LoadingSpinner content="위치 정보를 불러오는 중..." />;
   }
   if (error) {
     return <MapError errorMessage={error} onRetry={handleRetry} />;

@@ -12,7 +12,7 @@ interface CategoryStore {
   setExpanded: (value: boolean) => void;
   selectCategory: (category: Category) => void;
   addCategory: (category: Category) => void;
-  removeCategory: (id: number) => void;
+  removeCategory: (id: string) => void;
 }
 
 export const useCategoryStore = create<CategoryStore>(set => ({
