@@ -4,7 +4,7 @@ import MapView from 'react-native-maps';
 import { Coords } from '@shared/types';
 
 // NOTE: 기본 줌 레벨
-const DEFAULT_DELTA = 10;
+const DEFAULT_DELTA = 14;
 
 // NOTE: 움직이는 속도(ms)
 const MOVING_SPEED = 1000;

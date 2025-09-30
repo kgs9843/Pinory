@@ -32,10 +32,18 @@ const useLocation = (retryCount: number) => {
       }
 
       try {
-        const currentLocation = await Location.getCurrentPositionAsync({});
-        setLocation({
-          latitude: currentLocation.coords.latitude,
-          longitude: currentLocation.coords.longitude,
+        const currentLocation = await Location.getCurrentPositionAsync();
+
+        // NOTE: 소수점 6자리까지
+        const latitude = parseFloat(currentLocation.coords.latitude.toFixed(6));
+        const longitude = parseFloat(currentLocation.coords.longitude.toFixed(6));
+
+        setLocation(prev => {
+          // NOTE: 이전 위치와 거의 같으면 업데이트하지 않음
+          if (prev && prev.latitude === latitude && prev.longitude === longitude) {
+            return prev;
+          }
+          return { latitude, longitude };
         });
       } catch (err) {
         setError('Could not get current location.');

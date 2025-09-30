@@ -2,6 +2,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 
+import PinFormScreen from '@/src/pages/PinFormScreen/ui/PinFormScreen';
+
 import PinDetailScreen from '@pages/PinDetailScreen/ui/PinDetailScreen';
 
 import { RootStackParamList } from '@shared/types/navigation';
@@ -24,8 +26,16 @@ export function Navigation() {
             headerShown: false,
           }}
         />
-        {/* FIXME: 추후 수정 */}
-        {/* <Stack.Screen name="PinCreate" component={PinDetailScreen} /> */}
+        <Stack.Screen
+          name="PinForm"
+          component={PinFormScreen}
+          options={{
+            presentation: 'modal',
+            gestureEnabled: true,
+            animation: 'slide_from_bottom',
+            headerShown: false,
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

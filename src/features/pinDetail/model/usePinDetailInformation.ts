@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { pinsDetail } from '@entities/pin/model/mock';
 import { PinDetail } from '@entities/pin/model/types';
 
-export const usePinDetail = (pinId: string) => {
+export const usePinDetailInformation = (pinId: string) => {
   const [pin, setPin] = useState<PinDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
