@@ -10,7 +10,8 @@ interface Props {
   pinId: string;
 }
 
-const PinEditScreen = ({ navigation }: Props) => {
+const PinEditScreen = ({ navigation, pinId }: Props) => {
+  console.log(pinId);
   return (
     <View className="flex-1 bg-white">
       <PinFormScreenHeader title="추억 편집" navigation={navigation} />
