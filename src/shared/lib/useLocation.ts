@@ -3,14 +3,11 @@ import { useState, useEffect } from 'react';
 
 import useLocationPermission from '@shared/lib/useLocationPermission';
 
-interface LocationState {
-  latitude: number;
-  longitude: number;
-}
+import { Coords } from '../types';
 
 const useLocation = (retryCount: number) => {
   const { permissionStatus, requestPermission } = useLocationPermission();
-  const [location, setLocation] = useState<LocationState | null>(null);
+  const [location, setLocation] = useState<Coords | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 

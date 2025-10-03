@@ -2,6 +2,7 @@ import '@/global.css';
 import React from 'react';
 import { View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import useLoadedAssets from '@shared/hooks/useLoadedAssets';
@@ -17,9 +18,11 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-          <Navigation />
-        </View>
+        <KeyboardProvider>
+          <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+            <Navigation />
+          </View>
+        </KeyboardProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>
   );
