@@ -1,9 +1,9 @@
-import * as Location from 'expo-location';
 import React, { useState } from 'react';
 import { View, TextInput, Alert } from 'react-native';
 
 import SearchIconSVG from '@/assets/images/search-icon.svg';
 
+import { getCoordinatesFromAddress } from '@shared/lib/locationUtils';
 import { ShadowStyles } from '@shared/ui/shadow';
 
 interface Props {
@@ -20,17 +20,15 @@ const SearchInput = ({ onSearch }: Props) => {
     }
 
     try {
-      // NOTE: Geocoding (위치 검색) 실행
-      const geocodedLocation = await Location.geocodeAsync(query.trim());
+      const coords = await getCoordinatesFromAddress(query.trim());
 
-      if (geocodedLocation.length > 0) {
-        const { latitude, longitude } = geocodedLocation[0];
-        onSearch({ latitude, longitude });
+      if (coords) {
+        onSearch(coords); // 검색 결과를 전달
       } else {
         Alert.alert('검색 결과를 찾을 수 없습니다.');
       }
     } catch (error) {
-      console.error(error);
+      console.error('handleSearch error:', error);
       Alert.alert('위치 검색 중 오류가 발생했습니다.');
     }
   };

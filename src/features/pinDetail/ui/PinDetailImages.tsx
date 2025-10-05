@@ -1,14 +1,9 @@
 import React, { useState, useRef } from 'react';
-import {
-  Dimensions,
-  FlatList,
-  Image,
-  View,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
-} from 'react-native';
+import { FlatList, Image, View, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
 
-const { width } = Dimensions.get('window');
+import { deviceWidth } from '@shared/lib/getDeviceInfo';
+
+const width = deviceWidth;
 
 interface Props {
   images: string[];

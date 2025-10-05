@@ -1,10 +1,11 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import React from 'react';
-import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 
 import { ShadowStyles } from './shadow';
+import { deviceWidth } from '../lib/getDeviceInfo';
 
-const screenWidth = Dimensions.get('window').width;
+const screenWidth = deviceWidth;
 const BOTTOM_TAB_BAR_WIDTH = 362;
 
 // FIXME: {state,navigation}

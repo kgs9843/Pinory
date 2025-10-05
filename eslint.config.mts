@@ -80,7 +80,6 @@ export default defineConfig([
       'prefer-template': 'warn',
       'prefer-arrow-callback': 'warn',
       'arrow-parens': ['warn', 'as-needed'],
-      'implicit-arrow-linebreak': ['warn', 'beside'],
       'object-shorthand': ['warn', 'always'],
       'lines-between-class-members': ['warn', 'always', { exceptAfterSingleLine: true }],
       'keyword-spacing': 'warn',
