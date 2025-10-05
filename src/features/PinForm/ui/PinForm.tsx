@@ -8,6 +8,7 @@ import { getAddressFromCoordinates } from '@shared/lib/locationUtils';
 import { useImagePicker } from '@shared/lib/useImagePicker';
 import useLocation from '@shared/lib/useLocation';
 
+import CategoryField from './CategoryField';
 import ImagePickerSection from './ImagePickerSection';
 import InputField from './InputField';
 import LocationSection from './LocationSection';
@@ -115,6 +116,8 @@ const PinForm = ({ initialData }: Props) => {
         placeholder="이곳에서의 경험과 감정을 자유롭게 적어보세요..."
         multiline
       />
+      {/* {카테고리} */}
+      <CategoryField />
 
       {/* 저장 버튼 */}
       <TouchableOpacity onPress={onSubmit} className="rounded-full bg-blue-500 py-4">

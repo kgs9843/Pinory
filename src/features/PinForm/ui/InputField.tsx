@@ -17,8 +17,10 @@ const InputField = ({
   ...rest
 }: InputFieldProps) => {
   return (
-    <View className="mb-4 flex-col rounded-2xl border border-gray-200 p-4">
-      <Text className="mb-1 font-semibold">{label} *</Text>
+    <View className="mb-4 flex-col">
+      <Text className="mb-1 font-semibold">
+        {label} <Text className="color-red-600">*</Text>
+      </Text>
       <TextInput
         value={value}
         onChangeText={setValue}
