@@ -38,6 +38,25 @@
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
+      ],
+      [
+        "expo-video",
+        {
+          "supportsBackgroundPlayback": true,
+          "supportsPictureInPicture": true
+        }
+      ],
+      [
+        "expo-asset",
+        {
+          "assets": [
+            "path/to/file.png",
+            "path/to/file.jpg",
+            "path/to/file.gif",
+            "path/to/directory",
+            "path/to/file.mp4"
+          ]
+        }
       ]
     ]
   }
