@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 export default {
   expo: {
     name: 'Pinory',
@@ -32,7 +34,7 @@ export default {
       package: 'com.kgs9843.Pinory',
       config: {
         googleMaps: {
-          apiKey: process.env.EXPO_PUBIC_GOOGLE_MAP_NATIVE_KEY,
+          apiKey: process.env.EXPO_PUBLIC_GOOGLE_MAP_NATIVE_KEY,
         },
       },
     },
