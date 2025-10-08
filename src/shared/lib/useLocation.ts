@@ -2,59 +2,67 @@ import * as Location from 'expo-location';
 import { useState, useEffect } from 'react';
 
 import useLocationPermission from '@shared/lib/useLocationPermission';
+import { useLocationStore } from '@shared/store/useLocationStroe';
 
-import { Coords } from '../types';
-
-const useLocation = (retryCount: number) => {
+const useLocation = () => {
   const { permissionStatus, requestPermission } = useLocationPermission();
-  const [location, setLocation] = useState<Coords | null>(null);
+  const { location, setLocation, retryCount, setRetryCount } = useLocationStore();
+  // 로컬 상태로 관리
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
   useEffect(() => {
-    const fetchLocation = async () => {
-      if (permissionStatus === 'denied') {
-        setLoading(false);
-        // NOTE: 권한이 거부되었으면 즉시 종료
-        setError('Location permission not granted.');
-        return;
-      }
+    let subscription: Location.LocationSubscription | null = null;
 
-      const hasPermission = await requestPermission();
-      if (!hasPermission) {
-        setLoading(false);
-        // NOTE: 권한을 요청하고 승인되지 않았으면 종료
-        setError('Location permission not granted.');
-        return;
-      }
-
+    const startWatching = async () => {
       try {
-        const currentLocation = await Location.getCurrentPositionAsync();
+        if (permissionStatus === 'denied') {
+          throw new Error('Location permission not granted.');
+        }
 
-        // NOTE: 소수점 6자리까지
-        const latitude = parseFloat(currentLocation.coords.latitude.toFixed(6));
-        const longitude = parseFloat(currentLocation.coords.longitude.toFixed(6));
+        const hasPermission = await requestPermission();
+        if (!hasPermission) {
+          throw new Error('Location permission not granted.');
+        }
 
-        setLocation(prev => {
-          // NOTE: 이전 위치와 거의 같으면 업데이트하지 않음
-          if (prev && prev.latitude === latitude && prev.longitude === longitude) {
-            return prev;
-          }
-          return { latitude, longitude };
-        });
-      } catch (err) {
-        setError('Could not get current location.');
+        subscription = await Location.watchPositionAsync(
+          {
+            accuracy: Location.Accuracy.High,
+            distanceInterval: 10,
+          },
+          loc => {
+            const latitude = parseFloat(loc.coords.latitude.toFixed(6));
+            const longitude = parseFloat(loc.coords.longitude.toFixed(6));
+
+            if (location && location.latitude === latitude && location.longitude === longitude) {
+              return;
+            }
+
+            setLocation({ latitude, longitude });
+          },
+        );
+      } catch (err: unknown) {
         console.error(err);
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('Could not get current location.');
+        }
       } finally {
         setLoading(false);
       }
     };
+
     if (permissionStatus === 'granted' || permissionStatus === 'undetermined') {
-      fetchLocation();
+      startWatching();
     }
+
+    // NOTE: 언마운트 시 구독 제거 (GPS 계속 켜짐 방지)
+    return () => {
+      subscription?.remove();
+    };
   }, [permissionStatus, requestPermission, retryCount]);
 
-  return { location, loading, error };
+  return { location, loading, error, setRetryCount, retryCount };
 };
 
 export default useLocation;

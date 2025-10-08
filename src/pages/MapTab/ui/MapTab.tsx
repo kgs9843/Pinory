@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
@@ -33,17 +33,11 @@ const defaultRegion = {
 
 const MapTab = () => {
   const mapRef = useRef<MapView>(null);
-  const [retryCount, setRetryCount] = useState(0);
-  const { location, loading, error } = useLocation(retryCount);
+  const { location, loading, error, setRetryCount, retryCount } = useLocation();
   const { handleSearch } = useSearchLocation(mapRef);
   const { goToCurrentLocation } = useMapControls(mapRef, location);
   const { selectedCategory } = useCategoryStore();
   const [selectedPin, setSelectedPin] = useState<Pin | null>(null);
-
-  // NOTE: 에러 화면 retry check
-  const handleRetry = useCallback(() => {
-    setRetryCount(prev => prev + 1);
-  }, []);
 
   // NOTE: 마커 걸러주는 로직 함수
   const filteredPins = useFilteredPins(selectedCategory);
@@ -52,7 +46,7 @@ const MapTab = () => {
     return <LoadingSpinner content="위치 정보를 불러오는 중..." />;
   }
   if (error) {
-    return <MapError errorMessage={error} onRetry={handleRetry} />;
+    return <MapError errorMessage={error} setRetryCount={setRetryCount} retryCount={retryCount} />;
   }
   return (
     <View className="flex-1">
@@ -86,7 +80,10 @@ const MapTab = () => {
       <CategoryDropdown />
 
       {/* 현재위치 표시 */}
-      <CurrentLocationButton onPress={goToCurrentLocation} visible={!!location} />
+      <CurrentLocationButton
+        onPress={goToCurrentLocation}
+        locationBoolean={!!location || !loading}
+      />
     </View>
   );
 };

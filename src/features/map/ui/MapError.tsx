@@ -1,14 +1,13 @@
 import * as Linking from 'expo-linking';
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
 interface Props {
   errorMessage: string;
-  onRetry: () => void;
+  setRetryCount: () => void;
+  retryCount: number;
 }
 
-const MapError = ({ errorMessage, onRetry }: Props) => {
-  const [retryAttempt, setRetryAttempt] = useState<number>(0);
-
+const MapError = ({ errorMessage, setRetryCount, retryCount }: Props) => {
   const openAppSettings = () => {
     Linking.openSettings().catch(() => {
       Alert.alert('설정 화면을 열 수 없습니다.', '기기 설정에서 직접 권한을 변경해 주세요.');
@@ -16,12 +15,11 @@ const MapError = ({ errorMessage, onRetry }: Props) => {
   };
 
   const handleRetryWithFeedback = () => {
-    onRetry();
-    setRetryAttempt(prev => prev + 1);
+    setRetryCount();
 
     // NOTE: 2초 후에도 에러 화면이 사라지지 않으면 실패로 간주하고 경고창 띄우기
     setTimeout(() => {
-      if (retryAttempt >= 2) {
+      if (retryCount >= 2) {
         Alert.alert(
           '재시도 실패',
           '오류 해결 후에도 위치 권한을 다시 확인할 수 없습니다. 앱을 종료 후 다시 실행해 주세요.',

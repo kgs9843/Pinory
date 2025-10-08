@@ -28,8 +28,7 @@ interface Props {
 }
 
 const PinForm = ({ initialData }: Props) => {
-  const [retryCount] = useState(0);
-  const { location, loading: locationLoading } = useLocation(retryCount);
+  const { location, loading: locationLoading } = useLocation();
 
   const [title, setTitle] = useState(initialData?.title ?? '');
   const [description, setDescription] = useState(initialData?.description ?? '');
