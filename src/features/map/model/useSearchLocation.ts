@@ -7,7 +7,7 @@ import { Coords } from '@shared/types';
 const DEFAULT_DELTA = 14;
 
 // NOTE: 움직이는 속도(ms)
-const MOVING_SPEED = 1000;
+const MOVING_SPEED = 800;
 
 export function useSearchLocation(mapRef: RefObject<MapView | null>) {
   const [searchLocation, setSearchLocation] = useState<Coords | null>(null);

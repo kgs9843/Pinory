@@ -4,6 +4,7 @@ import React from 'react';
 
 import PinFormScreen from '@/src/pages/PinFormScreen/ui/PinFormScreen';
 
+import LoginScreen from '@pages/LoginScreen/ui/LoginScreen';
 import PinDetailScreen from '@pages/PinDetailScreen/ui/PinDetailScreen';
 
 import { RootStackParamList } from '@shared/types/navigation';
@@ -15,6 +16,7 @@ export function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Main" component={MainTabNavigator} />
         <Stack.Screen
           name="PinDetail"

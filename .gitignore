@@ -38,7 +38,13 @@ yarn-error.*
 
 # generated native folders
 /ios
-/android
+
+# Android build artifacts
+/android/.gradle/
+/android/app/build/
+/android/app/.cxx/
+/android/.idea/
+/android/local.properties
 
 # local env / secret
 .env

@@ -40,6 +40,7 @@ const SearchInput = ({ onSearch }: Props) => {
           className="h-14 w-[250px] rounded-full border border-gray-300 bg-white px-14"
           style={ShadowStyles.shadowMd}
           placeholder="장소를 검색해보세요"
+          placeholderTextColor="#000"
           onChangeText={setQuery}
           value={query}
           onSubmitEditing={handleSearch}

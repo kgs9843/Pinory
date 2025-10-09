@@ -27,6 +27,6 @@
     "target": "ES2022",
     "module": "ESNext"
   },
-  "include": ["**/*.ts", "**/*.tsx", "nativewind-env.d.ts"],
+  "include": ["**/*.ts", "**/*.tsx", "nativewind-env.d.ts", "src/app/firebaseConfig.js"],
   "exclude": ["node_modules", "**/*.test.ts"]
 }
