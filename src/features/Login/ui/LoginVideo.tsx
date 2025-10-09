@@ -1,6 +1,6 @@
 import { useEventListener } from 'expo';
 import { useVideoPlayer, VideoView, VideoPlayerStatus } from 'expo-video';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Image } from 'react-native';
 
 import loginImage from '@/assets/images/loginScreen.png';
@@ -12,6 +12,12 @@ interface LoginVideoProps {
 
 const LoginVideo = ({ children }: LoginVideoProps) => {
   const [playerStatus, setPlayerStatus] = useState<VideoPlayerStatus>('loading');
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
+
   const player = useVideoPlayer(loginVideo, player => {
     player.loop = true;
     player.play();
@@ -28,7 +34,7 @@ const LoginVideo = ({ children }: LoginVideoProps) => {
 
   return (
     <View className="flex-1">
-      {playerStatus === 'readyToPlay' ? (
+      {isMounted && playerStatus === 'readyToPlay' ? (
         //  NOTE: 비디오가 준비/재생 중일 때 VideoView 렌더링
         <VideoView
           player={player}

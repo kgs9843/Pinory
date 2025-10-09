@@ -1,12 +1,15 @@
 import React from 'react';
 import { TouchableOpacity, Text, View } from 'react-native';
 
+import LoadingSpinner from '@shared/ui/LoadingSpinner';
+
 interface Props {
   title: string;
   onPress?: () => void;
   icon?: React.ReactNode;
   bgColor?: string;
   textColor?: string;
+  isLoading: boolean;
 }
 const LoginButton = ({
   title,
@@ -14,13 +17,21 @@ const LoginButton = ({
   icon,
   bgColor = 'bg-blue-600',
   textColor = 'text-white',
+  isLoading,
 }: Props) => (
   <TouchableOpacity
     onPress={onPress}
-    className={`flex-row items-center justify-center rounded-full px-6 py-4 ${bgColor}`}
+    disabled={isLoading}
+    className={`h-[45px] w-[300px] flex-row items-center justify-center rounded-full ${bgColor}`}
   >
-    {icon && <View className="absolute left-8">{icon}</View>}
-    <Text className={`text-lg font-semibold ${textColor}`}>{title}</Text>
+    {isLoading ? (
+      <LoadingSpinner />
+    ) : (
+      <>
+        {icon && <View className="absolute left-8">{icon}</View>}
+        <Text className={`text-lg font-semibold ${textColor}`}>{title}</Text>
+      </>
+    )}
   </TouchableOpacity>
 );
 

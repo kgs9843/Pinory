@@ -6,7 +6,7 @@ import { PinDetail } from '@entities/pin/model/types';
 
 import { getAddressFromCoordinates } from '@shared/lib/locationUtils';
 import { useImagePicker } from '@shared/lib/useImagePicker';
-import useLocation from '@shared/lib/useLocation';
+import { useLocationStore } from '@shared/store/useLocationStroe';
 
 import CategoryField from './CategoryField';
 import ImagePickerSection from './ImagePickerSection';
@@ -28,7 +28,7 @@ interface Props {
 }
 
 const PinForm = ({ initialData }: Props) => {
-  const { location, loading: locationLoading } = useLocation();
+  const location = useLocationStore(state => state.location);
 
   const [title, setTitle] = useState(initialData?.title ?? '');
   const [description, setDescription] = useState(initialData?.description ?? '');
@@ -86,7 +86,7 @@ const PinForm = ({ initialData }: Props) => {
       bottomOffset={80}
     >
       {/* 위치 */}
-      <LocationSection location={location} loading={locationLoading} address={address} />
+      <LocationSection location={location} address={address} />
 
       {/* 사진 */}
       <ImagePickerSection

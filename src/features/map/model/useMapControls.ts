@@ -5,8 +5,8 @@ import { Coords } from '@shared/types';
 
 // NOTE: 기본 줌 레벨 (delta 값)
 const DEFAULT_DELTA = {
-  latitudeDelta: 0.01,
-  longitudeDelta: 0.01,
+  latitudeDelta: 0.003,
+  longitudeDelta: 0.003,
 };
 
 // NOTE: 움직이는 속도

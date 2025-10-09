@@ -4,10 +4,13 @@ import { useState, useEffect } from 'react';
 import useLocationPermission from '@shared/lib/useLocationPermission';
 import { useLocationStore } from '@shared/store/useLocationStroe';
 
+const ACCURACY = Location.Accuracy.Balanced; // NOTE: GPS 정확도
+const DISTANCE_INTERVAL = 20; // NOTE: 몇 m 이동마다 업데이트
+const THRESHOLD = 0.00005; // NOTE: 좌표 변화 허용 오차 (약 5m)
+
 const useLocation = () => {
   const { permissionStatus, requestPermission } = useLocationPermission();
   const { location, setLocation, retryCount, setRetryCount } = useLocationStore();
-  // 로컬 상태로 관리
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
@@ -26,14 +29,19 @@ const useLocation = () => {
 
         subscription = await Location.watchPositionAsync(
           {
-            accuracy: Location.Accuracy.High,
-            distanceInterval: 10,
+            accuracy: ACCURACY,
+            distanceInterval: DISTANCE_INTERVAL,
           },
           loc => {
             const latitude = parseFloat(loc.coords.latitude.toFixed(6));
             const longitude = parseFloat(loc.coords.longitude.toFixed(6));
+            const threshold = THRESHOLD;
 
-            if (location && location.latitude === latitude && location.longitude === longitude) {
+            if (
+              location &&
+              Math.abs(location.latitude - latitude) < threshold &&
+              Math.abs(location.longitude - longitude) < threshold
+            ) {
               return;
             }
 
