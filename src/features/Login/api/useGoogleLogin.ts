@@ -25,19 +25,16 @@ export const useGoogleLogin = () => {
         return;
       }
 
-      console.log(idToken);
-
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
       const res = await auth().signInWithCredential(googleCredential);
-
-      console.log(res);
 
       if (!idToken) {
         Alert.alert('로그인 실패', 'idToken을 가져올 수 없습니다.');
         return null;
       }
 
-      return userInfo;
+      // NOTE: res의 additional data에서는 isNewUser값을 가지고 있는 값이 있습니다!
+      return res.user.providerData[0];
     } catch (error: unknown) {
       let message = '알 수 없는 오류가 발생했습니다.';
       if (error instanceof Error) {

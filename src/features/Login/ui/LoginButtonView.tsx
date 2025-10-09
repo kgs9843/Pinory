@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 
 import GoogleLogoSvg from '@/assets/images/auth/google-logo-icon.svg';
+import { FirebaseUser } from '@/src/entities/user/model/userType';
 
 import { RootNavigationProp } from '@shared/types/navigation';
 
 import LoginButton from './LoginButton';
 import { useGoogleLogin } from '../api/useGoogleLogin';
+import { saveUserToFirestore } from '../model/saveUserToFirestore';
 
 interface Props {
   navigation: RootNavigationProp<'Login'>;
@@ -26,8 +28,10 @@ const LoginButtonView = ({ navigation }: Props) => {
     try {
       if (type === 'google') {
         console.log('✅ Google OAuth 로그인 실행');
-        const user = await signIn();
-        if (user) {
+        const userProviderData = await signIn();
+        console.log(userProviderData);
+        if (userProviderData) {
+          await saveUserToFirestore(userProviderData as FirebaseUser);
           navigation.replace('Main');
         }
       } else {

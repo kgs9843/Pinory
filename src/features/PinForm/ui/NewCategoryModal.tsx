@@ -14,11 +14,30 @@ const NewCategoryModal = ({ isVisible, onClose, onAdd }: Props) => {
   const [newCategoryName, setNewCategoryName] = useState('');
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
 
+  const [nameError, setNameError] = useState('');
+  const [colorError, setColorError] = useState('');
+
   const handleAdd = () => {
-    if (!newCategoryName || !selectedColor) {
-      return;
+    let hasError = false;
+
+    if (!newCategoryName.trim()) {
+      setNameError('* 카테고리 이름을 입력해주세요.');
+      hasError = true;
+    } else {
+      setNameError('');
     }
-    onAdd(newCategoryName, selectedColor);
+
+    if (!selectedColor) {
+      setColorError('* 카테고리 색상을 선택해주세요.');
+      hasError = true;
+    } else {
+      setColorError('');
+    }
+
+    if (hasError) return;
+
+    // NOTE: 오류 없으면 추가
+    onAdd(newCategoryName, selectedColor!);
     setNewCategoryName('');
     setSelectedColor(null);
     onClose();
@@ -33,6 +52,8 @@ const NewCategoryModal = ({ isVisible, onClose, onAdd }: Props) => {
             onPress={() => {
               setNewCategoryName('');
               setSelectedColor(null);
+              setNameError('');
+              setColorError('');
               onClose();
             }}
           >
@@ -47,12 +68,21 @@ const NewCategoryModal = ({ isVisible, onClose, onAdd }: Props) => {
         {/* 카테고리 이름 입력 */}
         <View className="mb-4">
           <Text className="mb-2">카테고리 이름</Text>
-          <TextInput
-            value={newCategoryName}
-            onChangeText={setNewCategoryName}
-            placeholder="카테고리 이름을 입력하세요"
-            className="rounded-md border border-gray-300 px-3 py-2"
-          />
+          <View className="w-full flex-row">
+            <TextInput
+              value={newCategoryName}
+              onChangeText={setNewCategoryName}
+              maxLength={10}
+              onChange={() => setNameError('')}
+              placeholderTextColor={'#ccc'}
+              placeholder="카테고리 이름을 입력하세요"
+              className="w-full rounded-md border border-gray-300 px-3 py-2"
+            />
+            <View className="absolute right-2 h-full items-center justify-center">
+              <Text className="text-sm text-gray-400">{`${newCategoryName.length}/10`}</Text>
+            </View>
+          </View>
+          {nameError ? <Text className="mt-1 text-sm text-red-500">{nameError}</Text> : null}
         </View>
 
         {/* 색상 선택 */}
@@ -66,7 +96,10 @@ const NewCategoryModal = ({ isVisible, onClose, onAdd }: Props) => {
                 style={{ width: '25%' }}
               >
                 <TouchableOpacity
-                  onPress={() => setSelectedColor(category.color)}
+                  onPress={() => {
+                    setSelectedColor(category.color);
+                    setColorError('');
+                  }}
                   className={`mb-2 h-10 w-10 items-center justify-center rounded-full ${
                     selectedColor === category.color ? 'h-12 w-12 border-2 border-gray-400' : ''
                   }`}
@@ -76,6 +109,7 @@ const NewCategoryModal = ({ isVisible, onClose, onAdd }: Props) => {
                 />
               </View>
             ))}
+            {colorError ? <Text className="mt-1 text-sm text-red-500">{colorError}</Text> : null}
           </View>
         </View>
       </View>
