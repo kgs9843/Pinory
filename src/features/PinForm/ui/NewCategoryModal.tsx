@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, TextInput } from 'react-native';
 
-import { categoryData } from '@shared/config/dummyCategories';
+import { categoryColor } from '@shared/config/categoryColor';
 import ModalLayout from '@shared/ui/ModalLayout';
 
 interface Props {
@@ -89,22 +89,22 @@ const NewCategoryModal = ({ isVisible, onClose, onAdd }: Props) => {
         <View>
           <Text className="mb-4">색상 선택</Text>
           <View className="flex-row flex-wrap">
-            {categoryData.map(category => (
+            {categoryColor.map((item, index) => (
               <View
-                key={category.id}
+                key={index}
                 className="flex h-[50px] items-center justify-center"
                 style={{ width: '25%' }}
               >
                 <TouchableOpacity
                   onPress={() => {
-                    setSelectedColor(category.color);
+                    setSelectedColor(item);
                     setColorError('');
                   }}
                   className={`mb-2 h-10 w-10 items-center justify-center rounded-full ${
-                    selectedColor === category.color ? 'h-12 w-12 border-2 border-gray-400' : ''
+                    selectedColor === item ? 'h-12 w-12 border-2 border-gray-400' : ''
                   }`}
                   style={{
-                    backgroundColor: category.color,
+                    backgroundColor: item,
                   }}
                 />
               </View>

@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { categoryData } from '@shared/config/dummyCategories';
 
 import NewCategoryModal from './NewCategoryModal';
+import { SaveCategoryToFirestore } from '../model/saveCategoryToFireStore';
 
 const CategoryField = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -13,9 +14,14 @@ const CategoryField = () => {
     setSelectedCategory(id);
   };
 
-  const handleAddCategory = (name: string, color: string) => {
+  const handleAddCategory = async (name: string, color: string) => {
     console.log('새 카테고리 추가:', name, color);
-    // TODO: 상태에 push해서 리스트에 반영하도록 확장 가능
+    try {
+      await SaveCategoryToFirestore(name, color);
+      console.log('✅ 성공', '새 카테고리가 추가되었습니다.');
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

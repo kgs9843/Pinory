@@ -33,8 +33,11 @@ export const useGoogleLogin = () => {
         return null;
       }
 
-      // NOTE: res의 additional data에서는 isNewUser값을 가지고 있는 값이 있습니다!
-      return res.user.providerData[0];
+      // NOTE: uid를 firebase꺼를 씀
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { uid: _, ...providerDataWithoutUid } = res.user.providerData[0];
+
+      return { ...providerDataWithoutUid, uid: res.user.uid };
     } catch (error: unknown) {
       let message = '알 수 없는 오류가 발생했습니다.';
       if (error instanceof Error) {

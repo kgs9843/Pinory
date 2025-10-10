@@ -1,8 +1,8 @@
 import firestore from '@react-native-firebase/firestore';
 
-import { FirebaseUser } from '@/src/entities/user/model/userType';
+import { User } from '@entities/user/model/type';
 
-export const saveUserToFirestore = async (user: FirebaseUser) => {
+export const saveUserToFirestore = async (user: User) => {
   if (!user) return;
 
   const userDocument = firestore().collection('Users').doc(user.uid);
@@ -16,13 +16,19 @@ export const saveUserToFirestore = async (user: FirebaseUser) => {
         displayName: user.displayName,
         email: user.email,
         photoURL: user.photoURL,
+        provider: user.provider,
         createdAt: firestore.FieldValue.serverTimestamp(),
+        lastLoginAt: firestore.FieldValue.serverTimestamp(),
       });
       console.log('Firestore에 유저 저장 완료');
     } else {
-      console.log('이미 있는 유저 입니다!');
+      // NOTE: 기존 유저일 때: lastLoginAt만 갱신
+      await userDocument.update({
+        lastLoginAt: firestore.FieldValue.serverTimestamp(),
+      });
+      console.log('기존 유저 로그인 시간 갱신');
     }
   } catch (error) {
-    console.error('🚨 Firestore 저장 오류:', error);
+    console.error('Firestore 저장 오류:', error);
   }
 };

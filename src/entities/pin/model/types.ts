@@ -24,3 +24,16 @@ export interface PinDetail {
   imageUrl?: string[];
   locationName: string;
 }
+
+// export interface Pin {
+//   id: string;
+//   title: string;
+//   description?: string;
+//   latitude: number;
+//   longitude: number;
+//   categoryId: string;
+//   images?: string[];
+//   address?: string;
+//   createdAt: FirebaseFirestoreTypes.Timestamp;
+//   updatedAt?: FirebaseFirestoreTypes.Timestamp;
+// }

@@ -1,8 +1,11 @@
-export interface FirebaseUser {
+export interface User {
   uid: string;
   displayName: string | null;
   email: string | null;
   phoneNumber: string | null;
   photoURL: string | null;
   providerId: string;
+  provider: LoginType;
 }
+
+export type LoginType = 'google' | 'kakao' | 'naver';
