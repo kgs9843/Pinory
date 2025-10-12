@@ -1,7 +1,7 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
-import { Category } from '@entities/category/model/type';
+import { Category } from './type';
 
 export const SaveCategoryToFirestore = async (name: string, color: string): Promise<void> => {
   try {

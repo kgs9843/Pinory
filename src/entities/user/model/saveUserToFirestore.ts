@@ -1,6 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
 
-import { User } from '@entities/user/model/type';
+import { User } from './type';
 
 export const saveUserToFirestore = async (user: User) => {
   if (!user) return;

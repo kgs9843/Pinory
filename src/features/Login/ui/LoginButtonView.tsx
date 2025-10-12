@@ -3,6 +3,7 @@ import { View } from 'react-native';
 
 import GoogleLogoSvg from '@/assets/images/auth/google-logo-icon.svg';
 
+import { saveUserToFirestore } from '@entities/user/model/saveUserToFirestore';
 import { User } from '@entities/user/model/type';
 import { LoginType } from '@entities/user/model/type';
 
@@ -10,7 +11,6 @@ import { RootNavigationProp } from '@shared/types/navigation';
 
 import LoginButton from './LoginButton';
 import { useGoogleLogin } from '../api/useGoogleLogin';
-import { saveUserToFirestore } from '../model/saveUserToFirestore';
 
 interface Props {
   navigation: RootNavigationProp<'Login'>;
