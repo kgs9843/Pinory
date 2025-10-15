@@ -13,12 +13,13 @@ interface Props {
   pins: Pin[];
   setSelectedPin: React.Dispatch<React.SetStateAction<Pin | null>>;
   mapRef: RefObject<MapView | null>;
+  clearPoi: () => void;
 }
 
 // TODO: 추후에 기본 색깔 수정과 커스텀 핀
 // ISSUE: CallOut 이슈 reference: https://github.com/react-native-maps/react-native-maps/issues/5216
 
-const PinList = ({ mapRef, pins, setSelectedPin }: Props) => {
+const PinList = ({ mapRef, pins, setSelectedPin, clearPoi }: Props) => {
   // NOTE: 카메라 이동 커스텀
   const handleMarkerPress = (pin: Pin) => {
     const region = {
@@ -29,6 +30,7 @@ const PinList = ({ mapRef, pins, setSelectedPin }: Props) => {
     };
     if (mapRef) {
       mapRef.current?.animateToRegion(region, CAMERA_ANIMATION_DURATION);
+      clearPoi();
       setSelectedPin(pin);
     }
     return;

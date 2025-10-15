@@ -1,11 +1,11 @@
 import * as Location from 'expo-location';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import useLocationPermission from '@shared/lib/useLocationPermission';
 import { useLocationStore } from '@shared/store/useLocationStroe';
 
 const ACCURACY = Location.Accuracy.Balanced; // NOTE: GPS 정확도
-const DISTANCE_INTERVAL = 20; // NOTE: 몇 m 이동마다 업데이트
+const DISTANCE_INTERVAL = 30; // NOTE: 몇 m 이동마다 업데이트
 const THRESHOLD = 0.00005; // NOTE: 좌표 변화 허용 오차 (약 5m)
 
 const useLocation = () => {
@@ -13,6 +13,9 @@ const useLocation = () => {
   const { location, setLocation, retryCount, setRetryCount } = useLocationStore();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  //재랜더링 방지
+  const hasSubscribed = useRef(false);
   useEffect(() => {
     let subscription: Location.LocationSubscription | null = null;
 
@@ -26,6 +29,9 @@ const useLocation = () => {
         if (!hasPermission) {
           throw new Error('Location permission not granted.');
         }
+
+        if (hasSubscribed.current) return;
+        hasSubscribed.current = true;
 
         subscription = await Location.watchPositionAsync(
           {
@@ -60,7 +66,10 @@ const useLocation = () => {
       }
     };
 
-    if (permissionStatus === 'granted' || permissionStatus === 'undetermined') {
+    if (
+      (permissionStatus === 'granted' || permissionStatus === 'undetermined') &&
+      !hasSubscribed.current
+    ) {
       startWatching();
     }
 
@@ -68,7 +77,7 @@ const useLocation = () => {
     return () => {
       subscription?.remove();
     };
-  }, [permissionStatus, requestPermission, retryCount]);
+  }, [permissionStatus, retryCount, requestPermission]);
 
   return { location, loading, error, setRetryCount, retryCount };
 };

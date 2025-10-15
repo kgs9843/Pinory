@@ -1,47 +1,23 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { View, Text, Image, Pressable } from 'react-native';
-import { Modalize } from 'react-native-modalize';
 
 import { Pin } from '@entities/pin/model/types';
 
 import { getCategoryColor, getCategoryName } from '@shared/lib/getCategory';
 import { RootNavigationProp } from '@shared/types/navigation';
+import BottomSheetModal from '@shared/ui/BottomSheetModal';
 
 interface Props {
   selectedPin: Pin | null;
-  setSelectedPin: (pin: Pin | null) => void;
+  setSelectedPin: React.Dispatch<React.SetStateAction<Pin | null>>;
 }
 
 const PinBottomSheet = ({ selectedPin, setSelectedPin }: Props) => {
-  const modalizeRef = useRef<Modalize>(null);
   const navigation = useNavigation<RootNavigationProp<'Main'>>();
 
-  useEffect(() => {
-    if (selectedPin) {
-      modalizeRef.current?.open();
-    } else {
-      modalizeRef.current?.close();
-    }
-  }, [selectedPin]);
-
   return (
-    <Modalize
-      ref={modalizeRef}
-      withOverlay={false}
-      onClosed={() => setSelectedPin(null)}
-      panGestureEnabled={true}
-      adjustToContentHeight={true}
-      handlePosition="inside"
-      handleStyle={{
-        width: 50,
-        backgroundColor: '#ccc',
-      }}
-      modalStyle={{
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-      }}
-    >
+    <BottomSheetModal isOpen={!!selectedPin} onClose={() => setSelectedPin(null)}>
       {selectedPin && (
         <View className="h-full flex-col justify-center gap-1 p-6">
           {/* 이미지 */}
@@ -83,7 +59,7 @@ const PinBottomSheet = ({ selectedPin, setSelectedPin }: Props) => {
           <View className="h-[100px]" />
         </View>
       )}
-    </Modalize>
+    </BottomSheetModal>
   );
 };
 

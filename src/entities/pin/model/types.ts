@@ -1,3 +1,10 @@
+export interface Poi {
+  name: string;
+  id: string;
+  latitude: number;
+  longitude: number;
+}
+
 export interface Pin {
   id: string;
   categoryId: string;
