@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
-import { fetchCategoriesFromFirestore } from '@entities/category/model/fetchCategoriesFromFirestore';
-import { SaveCategoryToFirestore } from '@entities/category/model/saveCategoryToFireStore';
+import { fetchCategoriesFromFirestore } from '@entities/category/api/fetchCategoriesFromFirestore';
+import { SaveCategoryToFirestore } from '@entities/category/api/saveCategoryToFireStore';
 import { Category } from '@entities/category/model/type';
 
 import LoadingSpinner from '@shared/ui/LoadingSpinner';

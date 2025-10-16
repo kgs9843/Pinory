@@ -1,7 +1,7 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
-import { Category } from './type';
+import { Category } from '../model/type';
 
 export const fetchCategoriesFromFirestore = async (): Promise<Category[]> => {
   try {

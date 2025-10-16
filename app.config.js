@@ -70,6 +70,7 @@ export default {
           assets: [],
         },
       ],
+      ['react-native-compressor'],
       'expo-web-browser',
       '@react-native-firebase/app',
       '@react-native-firebase/auth',

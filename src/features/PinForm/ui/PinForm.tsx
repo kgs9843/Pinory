@@ -13,10 +13,10 @@ import ImagePickerSection from './ImagePickerSection';
 import InputField from './InputField';
 import LocationSection from './LocationSection';
 
-// NOTE: 사진 최대 5장
+// NOTE: 사진(동영상) 최대 5장
 export const IMAGE_PICKER_MAX_COUNT = 5;
-// NOTE: 사진 한 장당 최대 100MB
-export const IMAGE_PICKER_MAX_SIZE_MB = 100;
+// NOTE: 사진(동영상) 한 장당 최대 500MB
+export const IMAGE_PICKER_MAX_SIZE_MB = 500;
 // NOTE: 제목 글자 수 제한
 export const TITLE_MAX_LENGTH = 50;
 // NOTE: 본문 글자 수 제한
@@ -35,10 +35,11 @@ const PinForm = ({ initialData }: Props) => {
   const [address, setAddress] = useState<string | null>(initialData?.locationName ?? '');
 
   const {
-    images,
-    pickImages,
+    files,
+    pickFiles,
     error: imageError,
-    removeImage,
+    removeFile,
+    loading,
   } = useImagePicker(initialData?.imageUrl ?? [], {
     maxCount: IMAGE_PICKER_MAX_COUNT,
     maxSizeMB: IMAGE_PICKER_MAX_SIZE_MB,
@@ -63,7 +64,7 @@ const PinForm = ({ initialData }: Props) => {
       id: initialData?.id ?? Date.now().toString(),
       title,
       description,
-      imageUrl: images,
+      imageUrl: files,
       latitude: location.latitude,
       longitude: location.longitude,
       categoryId: initialData?.categoryId ?? '1',
@@ -90,11 +91,12 @@ const PinForm = ({ initialData }: Props) => {
 
       {/* 사진 */}
       <ImagePickerSection
-        images={images}
+        images={files}
         error={imageError}
         maxCount={IMAGE_PICKER_MAX_COUNT}
-        pickImages={pickImages}
-        removeImage={removeImage}
+        pickImages={pickFiles}
+        removeImage={removeFile}
+        loading={loading}
       />
 
       {/* 제목 */}

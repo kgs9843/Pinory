@@ -3,7 +3,7 @@ import { View } from 'react-native';
 
 import GoogleLogoSvg from '@/assets/images/auth/google-logo-icon.svg';
 
-import { saveUserToFirestore } from '@entities/user/model/saveUserToFirestore';
+import { saveUserToFirestore } from '@entities/user/api/saveUserToFirestore';
 import { User } from '@entities/user/model/type';
 import { LoginType } from '@entities/user/model/type';
 
