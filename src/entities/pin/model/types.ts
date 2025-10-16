@@ -28,7 +28,7 @@ export interface PinDetail {
     profileImage: string;
   };
   date: string;
-  imageUrl?: string[];
+  fileUrl?: string[];
   locationName: string;
 }
 

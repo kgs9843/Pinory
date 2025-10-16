@@ -68,6 +68,7 @@ export function useImagePicker(initialFiles: string[] = [], options: Props = {})
           const compressedFileInfo = await fetch(compressedUri).then(res => res.blob());
           const compressedSizeMB = compressedFileInfo.size / 1024 / 1024;
           console.log('압축 후 용량(MB):', compressedSizeMB);
+          console.log(compressedUri);
 
           // NOTE: setFile에 압축된 URI 저장
           setFiles(prev => [...prev, compressedUri]);
@@ -82,7 +83,7 @@ export function useImagePicker(initialFiles: string[] = [], options: Props = {})
     }
   };
   const removeFile = (uri: string) => {
-    setFiles(prev => prev.filter(img => img !== uri));
+    setFiles(prev => prev.filter(file => file !== uri));
   };
 
   return {

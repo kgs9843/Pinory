@@ -37,10 +37,10 @@ const PinForm = ({ initialData }: Props) => {
   const {
     files,
     pickFiles,
-    error: imageError,
+    error: fileError,
     removeFile,
     loading,
-  } = useImagePicker(initialData?.imageUrl ?? [], {
+  } = useImagePicker(initialData?.fileUrl ?? [], {
     maxCount: IMAGE_PICKER_MAX_COUNT,
     maxSizeMB: IMAGE_PICKER_MAX_SIZE_MB,
   });
@@ -64,7 +64,7 @@ const PinForm = ({ initialData }: Props) => {
       id: initialData?.id ?? Date.now().toString(),
       title,
       description,
-      imageUrl: files,
+      fileUrl: files,
       latitude: location.latitude,
       longitude: location.longitude,
       categoryId: initialData?.categoryId ?? '1',
@@ -91,11 +91,11 @@ const PinForm = ({ initialData }: Props) => {
 
       {/* 사진 */}
       <ImagePickerSection
-        images={files}
-        error={imageError}
+        files={files}
+        error={fileError}
         maxCount={IMAGE_PICKER_MAX_COUNT}
-        pickImages={pickFiles}
-        removeImage={removeFile}
+        pickFiles={pickFiles}
+        removeFile={removeFile}
         loading={loading}
       />
 
