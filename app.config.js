@@ -15,6 +15,9 @@ export default {
       resizeMode: 'contain',
       backgroundColor: '#ffffff',
     },
+    experiments: {
+      reactCompiler: true,
+    },
     android: {
       adaptiveIcon: {
         foregroundImage: './assets/adaptive-icon.png',

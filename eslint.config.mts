@@ -8,12 +8,18 @@ import { defineConfig } from 'eslint/config';
 import prettierPlugin from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
 import path from 'path';
+import reactCompiler from 'eslint-plugin-react-compiler';
 
 export default defineConfig([
   {
     files: ['src/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    plugins: { js, import: importPlugin, prettier: prettierPlugin },
+    plugins: {
+      js,
+      import: importPlugin,
+      prettier: prettierPlugin,
+    },
     extends: [
+      reactCompiler.configs.recommended,
       'js/recommended',
       tseslint.configs.recommended,
       pluginReact.configs.flat.recommended,
@@ -41,6 +47,9 @@ export default defineConfig([
       ...reactHooks.configs.recommended.rules,
       'react-hooks/rules-of-hooks': 'warn',
       'react-hooks/exhaustive-deps': 'warn',
+
+      // NOTE: react compiler
+      'react-compiler/react-compiler': 'warn',
 
       // NOTE: fsd
       'import/order': [

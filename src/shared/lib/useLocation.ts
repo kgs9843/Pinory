@@ -14,7 +14,7 @@ const useLocation = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  //재랜더링 방지
+  // NOTE: 재랜더링 방지
   const hasSubscribed = useRef(false);
   useEffect(() => {
     let subscription: Location.LocationSubscription | null = null;

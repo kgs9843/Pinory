@@ -18,7 +18,10 @@ const LocationSection = ({ location, address }: Props) => {
         <View className="flex-col">
           <Text className="text-xl font-bold">현재 위치</Text>
           {location ? (
-            <Text>{`위도: ${location.latitude}, 경도: ${location.longitude}`}</Text>
+            <View>
+              <Text>자동으로 감지됨</Text>
+              <Text>{`위도: ${location.latitude}, 경도: ${location.longitude}`}</Text>
+            </View>
           ) : (
             <Text>위치를 감지할 수 없습니다.</Text>
           )}
