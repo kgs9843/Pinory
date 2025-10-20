@@ -1,21 +1,53 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
-import { categoryData } from '@shared/config/dummyCategories';
+import { fetchCategoriesFromFirestore } from '@entities/category/api/fetchCategoriesFromFirestore';
+import { SaveCategoryToFirestore } from '@entities/category/api/saveCategoryToFireStore';
+import { Category } from '@entities/category/model/type';
+
+import LoadingSpinner from '@shared/ui/LoadingSpinner';
 
 import NewCategoryModal from './NewCategoryModal';
 
-const CategoryField = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+interface Props {
+  selectedCategory: string | null;
+  setSelectedCategory: React.Dispatch<React.SetStateAction<string | null>>;
+  error?: string;
+}
+
+const CategoryField = ({ selectedCategory, setSelectedCategory, error }: Props) => {
+  const [categories, setCategories] = useState<Category[]>([]);
+
   const [isModalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  // NOTE: Firestore에서 카테고리 불러오기
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const data = await fetchCategoriesFromFirestore();
+        setCategories(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadCategories();
+  }, [isModalVisible]);
 
   const handleCategorySelect = (id: string) => {
     setSelectedCategory(id);
   };
 
-  const handleAddCategory = (name: string, color: string) => {
+  const handleAddCategory = async (name: string, color: string) => {
     console.log('새 카테고리 추가:', name, color);
-    // TODO: 상태에 push해서 리스트에 반영하도록 확장 가능
+    try {
+      await SaveCategoryToFirestore(name, color);
+      console.log('✅ 성공', '새 카테고리가 추가되었습니다.');
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -24,33 +56,37 @@ const CategoryField = () => {
         카테고리 <Text className="color-red-600">*</Text>
       </Text>
 
-      {/* 카테고리 버튼 리스트 */}
-      <View className="flex-row flex-wrap gap-3">
-        {categoryData.map(category => (
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        // NOTE: 카테고리 버튼 리스트
+        <View className="flex-row flex-wrap gap-3">
+          {categories.map(category => (
+            <TouchableOpacity
+              key={category.id}
+              onPress={() => handleCategorySelect(category.id)}
+              className={`flex-row items-center rounded-xl border px-4 py-2 ${
+                selectedCategory === category.id ? 'border-blue-500 bg-blue-50' : 'border-gray-200'
+              }`}
+            >
+              <View
+                className="mr-2 h-3 w-3 rounded-full"
+                style={{ backgroundColor: category.color }}
+              />
+              <Text>{category.name}</Text>
+            </TouchableOpacity>
+          ))}
+
+          {/* 새 카테고리 추가 버튼 */}
           <TouchableOpacity
-            key={category.id}
-            onPress={() => handleCategorySelect(category.id)}
-            className={`flex-row items-center rounded-xl border px-4 py-2 ${
-              selectedCategory === category.id ? 'border-blue-500 bg-blue-50' : 'border-gray-200'
-            }`}
+            onPress={() => setModalVisible(true)}
+            className="rounded-xl border-2 border-dashed border-gray-300 px-4 py-2"
           >
-            <View
-              className="mr-2 h-3 w-3 rounded-full"
-              style={{ backgroundColor: category.color }}
-            />
-            <Text>{category.name}</Text>
+            <Text className="text-gray-500">+ 새 카테고리 만들기</Text>
           </TouchableOpacity>
-        ))}
-
-        {/* 새 카테고리 추가 버튼 */}
-        <TouchableOpacity
-          onPress={() => setModalVisible(true)}
-          className="rounded-xl border-2 border-dashed border-gray-300 px-4 py-2"
-        >
-          <Text className="text-gray-500">+ 새 카테고리 만들기</Text>
-        </TouchableOpacity>
-      </View>
-
+        </View>
+      )}
+      {error ? <Text className="mt-3 text-sm text-red-500">{error}</Text> : null}
       {/* 모달 컴포넌트 */}
       <NewCategoryModal
         isVisible={isModalVisible}

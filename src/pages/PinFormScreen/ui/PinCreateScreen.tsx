@@ -15,7 +15,7 @@ const PinCreate = ({ navigation }: Props) => {
   return (
     <View className="flex-1 bg-white">
       <PinFormScreenHeader title="추억 작성" navigation={navigation} />
-      <PinForm />
+      <PinForm navigation={navigation} />
     </View>
   );
 };

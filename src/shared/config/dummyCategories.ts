@@ -1,3 +1,4 @@
+// FIXME: 추후에 삭제할 것들
 export const categoryData = [
   { id: '1', name: '일본', color: '#F59E0B' }, // 노랑
   { id: '2', name: '산', color: '#10B981' }, // 초록

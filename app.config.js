@@ -15,6 +15,9 @@ export default {
       resizeMode: 'contain',
       backgroundColor: '#ffffff',
     },
+    experiments: {
+      reactCompiler: true,
+    },
     android: {
       adaptiveIcon: {
         foregroundImage: './assets/adaptive-icon.png',
@@ -67,6 +70,7 @@ export default {
           assets: [],
         },
       ],
+      ['react-native-compressor'],
       'expo-web-browser',
       '@react-native-firebase/app',
       '@react-native-firebase/auth',

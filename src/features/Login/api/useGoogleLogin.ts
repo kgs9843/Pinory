@@ -25,19 +25,19 @@ export const useGoogleLogin = () => {
         return;
       }
 
-      console.log(idToken);
-
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
       const res = await auth().signInWithCredential(googleCredential);
-
-      console.log(res);
 
       if (!idToken) {
         Alert.alert('로그인 실패', 'idToken을 가져올 수 없습니다.');
         return null;
       }
 
-      return userInfo;
+      // NOTE: uid를 firebase꺼를 씀
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { uid: _, ...providerDataWithoutUid } = res.user.providerData[0];
+
+      return { ...providerDataWithoutUid, uid: res.user.uid };
     } catch (error: unknown) {
       let message = '알 수 없는 오류가 발생했습니다.';
       if (error instanceof Error) {

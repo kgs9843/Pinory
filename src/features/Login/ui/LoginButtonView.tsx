@@ -3,6 +3,10 @@ import { View } from 'react-native';
 
 import GoogleLogoSvg from '@/assets/images/auth/google-logo-icon.svg';
 
+import { saveUserToFirestore } from '@entities/user/api/saveUserToFirestore';
+import { User } from '@entities/user/model/type';
+import { LoginType } from '@entities/user/model/type';
+
 import { RootNavigationProp } from '@shared/types/navigation';
 
 import LoginButton from './LoginButton';
@@ -11,7 +15,6 @@ import { useGoogleLogin } from '../api/useGoogleLogin';
 interface Props {
   navigation: RootNavigationProp<'Login'>;
 }
-type LoginType = 'google' | 'kakao' | 'naver';
 
 const LoginButtonView = ({ navigation }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,8 +29,15 @@ const LoginButtonView = ({ navigation }: Props) => {
     try {
       if (type === 'google') {
         console.log('✅ Google OAuth 로그인 실행');
-        const user = await signIn();
-        if (user) {
+        const userProviderData = await signIn();
+        // NOTE: LoginType을 추가합니다
+        const newUserData = {
+          ...userProviderData,
+          provider: 'google',
+        };
+        console.log(newUserData);
+        if (newUserData) {
+          await saveUserToFirestore(newUserData as User);
           navigation.replace('Main');
         }
       } else {

@@ -38,7 +38,7 @@ const PinDetailCard = ({ pin }: Props) => {
       </View>
 
       {/* 피드 사진 */}
-      {pin.imageUrl ? <PinDetailImages images={pin.imageUrl} /> : null}
+      {pin.fileUrl ? <PinDetailImages images={pin.fileUrl} /> : null}
 
       {/* 본문 내용 */}
       <View className="mt-5 p-4">
