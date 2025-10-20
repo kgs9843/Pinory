@@ -9,9 +9,15 @@ import LoadingSpinner from '@shared/ui/LoadingSpinner';
 
 import NewCategoryModal from './NewCategoryModal';
 
-const CategoryField = () => {
+interface Props {
+  selectedCategory: string | null;
+  setSelectedCategory: React.Dispatch<React.SetStateAction<string | null>>;
+  error?: string;
+}
+
+const CategoryField = ({ selectedCategory, setSelectedCategory, error }: Props) => {
   const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
   const [isModalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -80,7 +86,7 @@ const CategoryField = () => {
           </TouchableOpacity>
         </View>
       )}
-
+      {error ? <Text className="mt-3 text-sm text-red-500">{error}</Text> : null}
       {/* 모달 컴포넌트 */}
       <NewCategoryModal
         isVisible={isModalVisible}

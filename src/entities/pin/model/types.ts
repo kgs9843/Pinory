@@ -32,6 +32,17 @@ export interface PinDetail {
   locationName: string;
 }
 
+export interface PinFormData {
+  title: string;
+  description: string;
+  latitude: number;
+  longitude: number;
+  categoryId: string;
+  date: string;
+  fileUrl?: string[];
+  locationName: string;
+}
+
 // export interface Pin {
 //   id: string;
 //   title: string;

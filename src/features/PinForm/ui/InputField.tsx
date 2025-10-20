@@ -6,6 +6,7 @@ interface InputFieldProps extends TextInputProps {
   setValue: (text: string) => void;
   maxLength: number;
   multiline?: boolean;
+  error?: string;
 }
 
 const InputField = ({
@@ -14,6 +15,7 @@ const InputField = ({
   setValue,
   maxLength,
   multiline = false,
+  error,
   ...rest
 }: InputFieldProps) => {
   return (
@@ -30,9 +32,12 @@ const InputField = ({
         style={multiline ? { textAlignVertical: 'top' } : undefined}
         {...rest}
       />
-      <Text className="text-right text-gray-400">
-        {value.length}/{maxLength}
-      </Text>
+      <View className="relative w-full flex-row px-2">
+        {error ? <Text className="mt-1 text-sm text-red-500">{error}</Text> : null}
+        <Text className="absolute right-2 text-gray-400">
+          {value.length}/{maxLength}
+        </Text>
+      </View>
     </View>
   );
 };
